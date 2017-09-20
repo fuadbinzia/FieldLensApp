@@ -14,7 +14,7 @@ public class LoginModuleTC extends Drivers{
     //Be able to create a new user
     public void CreateNewUser(){
 
-        PageObjects.newUser("fieldlenstest18@mailinator.com", "testing123", "FirstName", "LastName","12345678910", "QA tester");
+        PageObjects.newUser("fieldlenstest98@mailinator.com", "testing123", "FirstName", "LastName","12345678910", "QA tester");
 
     }
 }

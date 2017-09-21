@@ -1,5 +1,5 @@
 import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.openqa.selenium.support.ui.Select;
 
 public class PageObjects extends Drivers {
 
@@ -80,6 +80,32 @@ public class PageObjects extends Drivers {
         driver.findElement(By.cssSelector(".generic-button.blue")).click();
     }
 
+    //Enter the Company name
+    public static void companyNameNewUser (String companyName){
+        Wait.waitForId("registration-company-name");
+        driver.findElement(By.id("registration-company-name")).clear();
+        driver.findElement(By.id("registration-company-name")).sendKeys(companyName);
+    }
+
+    //Expand the Company Type drop down menu and select from the menu options 2-5
+    // 2 = GC / Construction Manager
+    // 3 = Subcontractor / Supplier
+    // 4 = Designer / Consultant
+    // 5 = Owner / Owner's Representative
+    public static void companyTypeNewUser (int companyTypeNum) {
+        Select dropComType = new Select (driver.findElement(By.id("registration-company-type")));
+        dropComType.selectByIndex(companyTypeNum);
+    }
+
+    //Expand the Company Discipline drop down menu and select from the menu options 2-3
+    // 2 = Construction Manager
+    // 3 = General Contractor
+    public static void companyDisciplineNewUser (int companyDisciplineNum){
+        driver.findElement(By.id("registration-discipline-id")).click();
+        Wait.waitForXpath(".//*[@id='registration-discipline-id']/option["+companyDisciplineNum+"]");
+        driver.findElement(By.xpath(".//*[@id='registration-discipline-id']/option["+companyDisciplineNum+"]")).click();
+    }
+
     //Login as existing user
     public static void existingUser (String emailAddress, String password){
 
@@ -93,7 +119,7 @@ public class PageObjects extends Drivers {
     }
 
     //Create new user
-    public static void newUser (String emailAddress, String password, String firstName, String lastName, String phoneNum, String jobTitle){
+    public static void newUser (String emailAddress, String password, String firstName, String lastName, String phoneNum, String jobTitle, String companyName, int companyType, int companyDiscipline){
 
         driver.get("https://app.fieldlens.com");
 
@@ -116,6 +142,14 @@ public class PageObjects extends Drivers {
         PageObjects.jobTitleNewUser(jobTitle);
 
         PageObjects.clickNextButtonNewUser();
+
+        PageObjects.companyNameNewUser(companyName);
+
+        PageObjects.companyTypeNewUser(companyType);
+
+        PageObjects.companyDisciplineNewUser(companyDiscipline);
+
+        PageObjects.registerButtonNewUser();
 
         PageVerify.verifyNewUserWelcomeModal();
     }
